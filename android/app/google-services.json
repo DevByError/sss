@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "355034457375",
+    "firebase_url": "https://best-fdda6-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "best-fdda6",
+    "storage_bucket": "best-fdda6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:355034457375:android:ef4695c1b61ea8ffb7bc2a",
+        "android_client_info": {
+          "package_name": "com.example.best"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAa6BenYGt7uTxfC6UoZxMiCscVJofQuWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:355034457375:android:8ef98a230a892176b7bc2a",
+        "android_client_info": {
+          "package_name": "com.example.goodg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAa6BenYGt7uTxfC6UoZxMiCscVJofQuWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:355034457375:android:f7a0d305b2096989b7bc2a",
+        "android_client_info": {
+          "package_name": "com.example.tes2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAa6BenYGt7uTxfC6UoZxMiCscVJofQuWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
