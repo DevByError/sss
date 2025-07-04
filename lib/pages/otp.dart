@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/reset_password.dart';
 
@@ -12,6 +13,32 @@ class _OTPPageState extends State<OTPPage> {
   final TextEditingController otpController3 = TextEditingController();
   final TextEditingController otpController4 = TextEditingController();
 
+  String verificationId = ''; // Store the verification ID
+
+  Future<void> _sendOtp(String phoneNumber) async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: phoneNumber, // Provide phone number here
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        // Automatically sign in if the OTP is verified
+        await FirebaseAuth.instance.signInWithCredential(credential);
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        // Handle error
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Verification failed: ${e.message}')),
+        );
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        this.verificationId = verificationId;
+        // OTP sent, you can notify user to enter OTP
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        // Handle auto retrieval timeout if needed
+        this.verificationId = verificationId;
+      },
+    );
+  }
+
   Future<void> _verifyOtp(BuildContext context) async {
     String otp =
         otpController1.text +
@@ -19,12 +46,23 @@ class _OTPPageState extends State<OTPPage> {
         otpController3.text +
         otpController4.text;
 
-    if (otp == '123456') {
+    // Use the verification ID from codeSent to create a PhoneAuthCredential
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: verificationId,
+      smsCode: otp,
+    );
+
+    try {
+      // Sign in using the credential
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // If OTP is correct, navigate to the ResetPasswordPage
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ResetPasswordPage()),
       );
-    } else {
+    } catch (e) {
+      // OTP verification failed, show error
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Invalid OTP')));
@@ -50,7 +88,7 @@ class _OTPPageState extends State<OTPPage> {
         focusNode: focusNode,
         decoration: InputDecoration(counterText: '', border: InputBorder.none),
         onChanged: (value) {
-          if (value.isNotEmpty && focusNode != null) {
+          if (value.isNotEmpty) {
             FocusScope.of(context).nextFocus();
           }
         },
@@ -84,7 +122,7 @@ class _OTPPageState extends State<OTPPage> {
               ),
               SizedBox(height: 20),
               Text(
-                'We\'ve sent a one-time password (OTP) to your email.',
+                'We\'ve sent a one-time password (OTP) to your phone.',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16, color: Colors.grey[600]),
               ),
